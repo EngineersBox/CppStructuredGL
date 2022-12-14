@@ -6,11 +6,15 @@
 #include <glad/glad.h>
 #include <string>
 
+#ifndef STRUCTURED_GL_BIND_CHECK
+#define STRUCTURED_GL_BIND_CHECK true
+#endif
+
 namespace StructuredGL {
 
     class GPUResource {
     public:
-        GPUResource(const std::string& name);
+        explicit GPUResource(std::string name);
         virtual ~GPUResource();
 
         virtual void bind();

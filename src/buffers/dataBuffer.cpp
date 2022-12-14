@@ -7,8 +7,8 @@ namespace StructuredGL::Buffers {
     DataBuffer::DataBuffer(DataBufferType type):
         DataBuffer(getDataBufferTypeName(type), type) {}
 
-    DataBuffer::DataBuffer(const std::string& name, DataBufferType type):
-        GPUResource(name),
+    DataBuffer::DataBuffer(std::string name, DataBufferType type):
+        GPUResource(std::move(name)),
         type(type) {
         GLuint target[1];
         glGenBuffers(1, target);

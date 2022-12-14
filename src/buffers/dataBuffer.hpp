@@ -57,7 +57,7 @@ X(UNB, "UNIFORM_BUFFER", GL_UNIFORM_BUFFER)
     class DataBuffer: public GPUResource {
     public:
         DataBuffer(DataBufferType type);
-        DataBuffer(const std::string& name, DataBufferType type);
+        DataBuffer(std::string name, DataBufferType type);
         ~DataBuffer() override;
 
         void bind() override;

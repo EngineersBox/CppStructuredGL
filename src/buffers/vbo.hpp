@@ -12,7 +12,7 @@ namespace StructuredGL::Buffers {
 
     class VBO: protected DataBuffer {
     public:
-        VBO(const std::string& name);
+        VBO(std::string name);
         VBO();
         ~VBO() override;
 

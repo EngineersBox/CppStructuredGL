@@ -4,8 +4,8 @@
 
 namespace StructuredGL::Buffers {
 
-    VBO::VBO(const std::string& name):
-        DataBuffer(name, DataBufferType::VAB) {}
+    VBO::VBO(std::string name):
+        DataBuffer(std::move(name), DataBufferType::VAB) {}
 
     VBO::VBO(): VBO(getDataBufferTypeName(DataBufferType::VAB)) {}
 
