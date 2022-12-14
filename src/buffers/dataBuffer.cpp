@@ -5,9 +5,13 @@
 namespace StructuredGL::Buffers {
 
     DataBuffer::DataBuffer(DataBufferType type):
-        GPUResource(getDataBufferTypeName(type)) {
-        GLuint name[1];
-        glGenBuffers(1, name);
+        DataBuffer(getDataBufferTypeName(type), type) {}
+
+    DataBuffer::DataBuffer(const std::string& name, DataBufferType type):
+        GPUResource(name),
+        type(type) {
+        GLuint target[1];
+        glGenBuffers(1, target);
         if (!name[0]) {
             throw std::runtime_error("[Buffer: " + this->getName() + "] Unable to create buffer");
         }
