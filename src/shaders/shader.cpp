@@ -8,10 +8,13 @@
 namespace StructuredGL::Shaders {
 
     Shader::Shader(const std::string& name, std::initializer_list<ShaderData> shaderData): GPUResource(name) {
-        std::unordered_map<GLuint, GLuint> modules = std::unordered_map<GLuint, GLuint>();
+        std::unordered_map<ShaderType, GLuint> modules = std::unordered_map<ShaderType, GLuint>();
         for (const ShaderData& data : shaderData) {
             if (modules.contains(data.type)) {
-                throw std::runtime_error("[Shader: " + name + "] Duplicate shader module data, already bound for type " + std::to_string(data.type));
+                throw std::runtime_error(
+                    "[Shader: " + name + "] Duplicate shader module data, already bound for type "
+                    + std::string(getShaderTypeName(data.type))
+                );
             }
             modules.insert(std::pair(
                 data.type,
@@ -42,9 +45,9 @@ namespace StructuredGL::Shaders {
             throw std::runtime_error("Shader data file path cannot be empty");
         }
         std::string code = Utils::FileUtils::readFile(data.file);
-        GLuint shaderId = glCreateShader(data.type);
+        GLuint shaderId = glCreateShader(getShaderTypeGLType(data.type));
         if (shaderId == 0) {
-            throw std::runtime_error(this->getPrefix() + " Error while creating shader of type " + std::to_string(data.type));
+            throw std::runtime_error(this->getPrefix() + " Error while creating shader of type " + getShaderTypeName(data.type));
         }
         const char* literalCode = code.c_str();
         glShaderSource(shaderId, 1, &literalCode, nullptr);
@@ -60,7 +63,7 @@ namespace StructuredGL::Shaders {
         return shaderId;
     }
 
-    void Shader::link(const std::unordered_map<GLuint, GLuint>& modules) const {
+    void Shader::link(const std::unordered_map<ShaderType, GLuint>& modules) const {
         glLinkProgram(this->getId());
         GLint status;
         glGetProgramiv(this->getId(), GL_LINK_STATUS, &status);
