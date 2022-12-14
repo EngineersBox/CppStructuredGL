@@ -7,7 +7,7 @@
 
 namespace StructuredGL::Shaders {
 
-    Shader::Shader(const std::string& name, std::initializer_list<ShaderData> shaderData): name(name) {
+    Shader::Shader(const std::string& name, std::initializer_list<ShaderData> shaderData): GPUResource(name) {
         std::unordered_map<GLuint, GLuint> modules = std::unordered_map<GLuint, GLuint>();
         for (const ShaderData& data : shaderData) {
             if (modules.contains(data.type)) {
@@ -18,23 +18,23 @@ namespace StructuredGL::Shaders {
                 this->createShader(data)
             ));
         }
-        this->programId = glCreateProgram();
-        if (this->programId == 0) {
+        this->setId(glCreateProgram());
+        if (this->getId() == 0) {
             throw std::runtime_error("[Shader: " + name + "] Unable to create new shader program");
         }
         this->link(modules);
     }
 
     Shader::~Shader() {
-        if (this->bound) {
+        if (this->isBound()) {
             glUseProgram(0);
-            this->bound = false;
+            this->setBound(false);
         }
-        glDeleteProgram(this->programId);
+        glDeleteProgram(this->getId());
     }
 
     std::string Shader::getPrefix() const {
-        return "[Shader: " + this->name + " Id: " + std::to_string(this->programId) + "]";
+        return "[Shader: " + this->name + " Id: " + std::to_string(this->getId()) + "]";
     }
 
     GLuint Shader::createShader(const ShaderData& data) const {
@@ -56,32 +56,32 @@ namespace StructuredGL::Shaders {
             glGetShaderInfoLog(shaderId, 1024, nullptr, log);
             throw std::runtime_error(this->getPrefix() + " Error while compiling shader: " + std::string(log));
         }
-        glAttachShader(this->programId, shaderId);
+        glAttachShader(this->getId(), shaderId);
         return shaderId;
     }
 
     void Shader::link(const std::unordered_map<GLuint, GLuint>& modules) const {
-        glLinkProgram(this->programId);
+        glLinkProgram(this->getId());
         GLint status;
-        glGetProgramiv(this->programId, GL_LINK_STATUS, &status);
+        glGetProgramiv(this->getId(), GL_LINK_STATUS, &status);
         if (!status) {
             GLchar log[1024];
-            glGetProgramInfoLog(this->programId, 1024, nullptr, log);
+            glGetProgramInfoLog(this->getId(), 1024, nullptr, log);
             throw std::runtime_error(this->getPrefix() + " Error while linking shader:" + std::string(log));
         }
         for (const auto& [_ignored, shaderId] : modules) {
-            glDetachShader(this->programId, shaderId);
+            glDetachShader(this->getId(), shaderId);
             glDeleteShader(shaderId);
         }
     }
 
     ShaderValidationState Shader::validate() {
-        glValidateProgram(this->programId);
+        glValidateProgram(this->getId());
         GLint status;
-        glGetProgramiv(this->programId, GL_VALIDATE_STATUS, &status);
+        glGetProgramiv(this->getId(), GL_VALIDATE_STATUS, &status);
         if (!status) {
             GLchar log[1024];
-            glGetProgramInfoLog(this->programId, 1024, nullptr, log);
+            glGetProgramInfoLog(this->getId(), 1024, nullptr, log);
             return ShaderValidationState {
                 .valid =  false,
                 .message = std::optional<std::string>(log)
@@ -94,19 +94,13 @@ namespace StructuredGL::Shaders {
     }
 
     void Shader::bind() {
-        if (this->bound) {
-            throw std::runtime_error(this->getPrefix() + " Shader is already bound");
-        }
-        glUseProgram(this->programId);
-        this->bound = true;
+        GPUResource::bind();
+        glUseProgram(this->getId());
     }
 
     void Shader::unbind() {
-        if (!this->bound) {
-            throw std::runtime_error(this->getPrefix() + " Shader is not bound");
-        }
+        GPUResource::unbind();
         glUseProgram(0);
-        this->bound = false;
     }
 
 }

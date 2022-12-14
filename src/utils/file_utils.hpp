@@ -8,7 +8,7 @@
 #include <fstream>
 #include <string>
 
-namespace PBRPipeline::Utils::FileUtils {
+namespace StructuredGL::Utils::FileUtils {
 
     static std::string readFile(const std::string& filePath) {
         std::ifstream file(filePath);
