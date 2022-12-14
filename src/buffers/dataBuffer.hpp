@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef STRUCTUREDGL_DATABUFFER_HPP
-#define STRUCTUREDGL_DATABUFFER_HPP
+#ifndef STRUCTURED_GL_DATABUFFER_HPP
+#define STRUCTURED_GL_DATABUFFER_HPP
 
 #include <array>
 #include <glad/glad.h>
@@ -10,7 +10,7 @@
 
 namespace StructuredGL::Buffers {
 
-#define BUFFER_TYPES \
+#define DATA_BUFFER_TYPES \
 X(VAB, "VERTEX_ARRAY_BUFFER", GL_ARRAY_BUFFER) \
 X(ACB, "ATOMIC_COUNTER_BUFFER", GL_ATOMIC_COUNTER_BUFFER) \
 X(CRB, "COPY_READ_BUFFER", GL_COPY_READ_BUFFER) \
@@ -28,19 +28,19 @@ X(UNB, "UNIFORM_BUFFER", GL_UNIFORM_BUFFER)
 
 #define X(type, name, glType) name,
     static constexpr std::array<const char*, 14> _bufferTypeName = {
-        BUFFER_TYPES
+        DATA_BUFFER_TYPES
     };
 #undef X
 
 #define X(type, name, glType) glType,
     static constexpr std::array<GLuint, 14> _bufferTypeGL = {
-        BUFFER_TYPES
+        DATA_BUFFER_TYPES
     };
 #undef X
 
 #define X(type, name, glType) type,
     enum class DataBufferType: size_t {
-        SHADER_TYPES
+        DATA_BUFFER_TYPES
     };
 #undef X
 
@@ -78,4 +78,4 @@ X(UNB, "UNIFORM_BUFFER", GL_UNIFORM_BUFFER)
 }
 
 
-#endif //STRUCTUREDGL_DATABUFFER_HPP
+#endif // STRUCTURED_GL_DATABUFFER_HPP
