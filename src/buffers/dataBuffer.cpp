@@ -9,7 +9,7 @@ namespace StructuredGL::Buffers {
         GLuint name[1];
         glGenBuffers(1, name);
         if (!name[0]) {
-            throw std::runtime_error(this->getPrefix() + "Unable to create buffer");
+            throw std::runtime_error("[Buffer: " + this->getName() + "] Unable to create buffer");
         }
         this->setId(name[0]);
     }
