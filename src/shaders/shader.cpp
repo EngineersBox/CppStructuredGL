@@ -7,12 +7,13 @@
 
 namespace StructuredGL::Shaders {
 
-    Shader::Shader(const std::string& name, std::initializer_list<ShaderData> shaderData): GPUResource(name) {
+    Shader::Shader(std::string name, std::initializer_list<ShaderData> shaderData):
+        GPUResource(std::move(name)) {
         std::unordered_map<ShaderType, GLuint> modules = std::unordered_map<ShaderType, GLuint>();
         for (const ShaderData& data : shaderData) {
             if (modules.contains(data.type)) {
                 throw std::runtime_error(
-                    "[Shader: " + name + "] Duplicate shader module data, already bound for type "
+                    "[Shader: " + this->getName() + "] Duplicate shader module data, already bound for type "
                     + std::string(getShaderTypeName(data.type))
                 );
             }
@@ -23,7 +24,7 @@ namespace StructuredGL::Shaders {
         }
         this->setId(glCreateProgram());
         if (this->getId() == 0) {
-            throw std::runtime_error("[Shader: " + name + "] Unable to create new shader program");
+            throw std::runtime_error("[Shader: " + this->getName() + "] Unable to create new shader program");
         }
         this->link(modules);
     }

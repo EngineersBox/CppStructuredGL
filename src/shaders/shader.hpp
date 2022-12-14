@@ -60,7 +60,7 @@ X(TESSELLATION_CONTROL, "TESSELLATION_CONTROL", GL_TESS_CONTROL_SHADER)
 
     class Shader: public GPUResource {
     public:
-        Shader(const std::string& name, std::initializer_list<ShaderData> shaderData);
+        Shader(std::string name, std::initializer_list<ShaderData> shaderData);
         ~Shader() override;
 
         void bind() override;

@@ -12,10 +12,10 @@ namespace StructuredGL::Buffers {
         type(type) {
         GLuint target[1];
         glGenBuffers(1, target);
-        if (!name[0]) {
+        if (!target[0]) {
             throw std::runtime_error("[Buffer: " + this->getName() + "] Unable to create buffer");
         }
-        this->setId(name[0]);
+        this->setId(target[0]);
     }
 
     DataBuffer::~DataBuffer() {
