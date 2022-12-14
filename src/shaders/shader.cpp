@@ -28,7 +28,7 @@ namespace StructuredGL::Shaders {
         this->link(modules);
     }
 
-    Shader::~Shader() noexcept {
+    Shader::~Shader() {
         if (this->isBound()) {
             glUseProgram(0);
             this->setBound(false);
