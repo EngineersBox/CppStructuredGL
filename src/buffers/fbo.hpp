@@ -54,7 +54,7 @@ namespace StructuredGL::Buffers {
 
         [[nodiscard]]
         ValidationState validate() const override;
-        
+
 //        void attach(const MemoryTexture& texture,
 //                    GLuint textureTarget3D,
 //                    GLuint attachment,
