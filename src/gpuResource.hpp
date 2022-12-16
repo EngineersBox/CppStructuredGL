@@ -15,7 +15,7 @@ namespace StructuredGL {
     class GPUResource {
     public:
         explicit GPUResource(std::string name);
-        virtual ~GPUResource();
+        virtual ~GPUResource() = default;
 
         virtual void bind();
         virtual void unbind();
