@@ -9,7 +9,7 @@
 
 namespace StructuredGL::Buffers {
 
-    class VAO: GPUResource {
+    class VAO: public GPUResource {
     public:
         VAO(const std::string& name);
         ~VAO();
@@ -17,6 +17,8 @@ namespace StructuredGL::Buffers {
         void bind() override;
         void unbind() override;
 
+        [[nodiscard]]
+        ValidationState validate() const override;
     };
 
 }

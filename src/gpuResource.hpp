@@ -5,12 +5,18 @@
 
 #include <glad/glad.h>
 #include <string>
+#include <optional>
 
 #ifndef STRUCTURED_GL_BIND_CHECK
 #define STRUCTURED_GL_BIND_CHECK true
 #endif
 
 namespace StructuredGL {
+
+    struct ValidationState {
+        bool valid = true;
+        std::optional<std::string> message = std::nullopt;
+    };
 
     class GPUResource {
     public:
@@ -19,6 +25,9 @@ namespace StructuredGL {
 
         virtual void bind();
         virtual void unbind();
+
+        [[nodiscard]]
+        virtual ValidationState validate() const;
 
         [[nodiscard]]
         constexpr GLuint getId() const {

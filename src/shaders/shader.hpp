@@ -53,11 +53,6 @@ namespace StructuredGL::Shaders {
         std::string file;
     };
 
-    struct ShaderValidationState {
-        bool valid = false;
-        std::optional<std::string> message = std::nullopt;
-    };
-
     class Shader: public GPUResource {
     public:
         Shader(std::string name, std::initializer_list<ShaderData> shaderData);
@@ -66,7 +61,8 @@ namespace StructuredGL::Shaders {
         void bind() override;
         void unbind() override;
 
-        ShaderValidationState validate();
+        [[nodiscard]]
+        ValidationState validate() const override;
 
     private:
         [[nodiscard]]

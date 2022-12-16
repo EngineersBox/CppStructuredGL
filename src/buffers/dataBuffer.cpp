@@ -12,9 +12,6 @@ namespace StructuredGL::Buffers {
         type(type) {
         GLuint target[1];
         glGenBuffers(1, target);
-        if (!target[0]) {
-            throw std::runtime_error("[Buffer: " + this->getName() + "] Unable to create buffer");
-        }
         this->setId(target[0]);
     }
 
@@ -28,6 +25,16 @@ namespace StructuredGL::Buffers {
         }
         const GLuint buffers[] = { this->getId() };
         glDeleteBuffers(1, buffers);
+    }
+
+    ValidationState DataBuffer::validate() const {
+        if (!this->getId()) {
+            return ValidationState{
+                .valid = false,
+                .message = std::optional<std::string>("[Buffer: " + this->getName() + "] Unable to create buffer")
+            };
+        }
+        return GPUResource::validate();
     }
 
     std::string DataBuffer::getPrefix() const {

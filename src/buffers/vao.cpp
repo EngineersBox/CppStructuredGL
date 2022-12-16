@@ -8,9 +8,6 @@ namespace StructuredGL::Buffers {
         GPUResource(name) {
         GLuint target[1];
         glGenVertexArrays(1, target);
-        if (!target[0]) {
-            throw std::runtime_error("[Buffer: " + this->getName() + "] Unable to create buffer");
-        }
         this->setId(target[0]);
     }
 
@@ -21,6 +18,16 @@ namespace StructuredGL::Buffers {
         }
         GLuint target[] = { this->getId() };
         glDeleteVertexArrays(1, target);
+    }
+
+    ValidationState VAO::validate() const {
+        if (!this->getId()) {
+            return ValidationState{
+                .valid = false,
+                .message = std::optional<std::string>("[Buffer: " + this->getName() + "] Unable to create buffer")
+            };
+        }
+        return GPUResource::validate();
     }
 
     void VAO::bind() {

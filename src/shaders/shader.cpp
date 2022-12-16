@@ -79,19 +79,19 @@ namespace StructuredGL::Shaders {
         }
     }
 
-    ShaderValidationState Shader::validate() {
+    ValidationState Shader::validate() const {
         glValidateProgram(this->getId());
         GLint status;
         glGetProgramiv(this->getId(), GL_VALIDATE_STATUS, &status);
         if (!status) {
             GLchar log[1024];
             glGetProgramInfoLog(this->getId(), 1024, nullptr, log);
-            return ShaderValidationState {
+            return ValidationState {
                 .valid =  false,
                 .message = std::optional<std::string>(log)
             };
         }
-        return ShaderValidationState {
+        return ValidationState {
             .valid = true,
             .message = std::nullopt
         };

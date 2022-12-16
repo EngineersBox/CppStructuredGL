@@ -63,6 +63,9 @@ namespace StructuredGL::Buffers {
         void bind() override;
         void unbind() override;
 
+        [[nodiscard]]
+        ValidationState validate() const override;
+
         void setData(GLsizeiptr size, const GLvoid* data, GLenum usage);
 
         [[nodiscard]]
