@@ -7,6 +7,7 @@
 #include <glad/glad.h>
 
 #include "../gpuResource.hpp"
+#include "../utils/preprocessor.hpp"
 
 namespace StructuredGL::Buffers {
 
@@ -27,13 +28,13 @@ namespace StructuredGL::Buffers {
     X(UNB, "UNIFORM_BUFFER", GL_UNIFORM_BUFFER)
 
 #define X(type, name, glType) name,
-    static constexpr std::array<const char*, 14> _bufferTypeName = {
+    static constexpr std::array<const char*, NUM_ARGS(DATA_BUFFER_TYPES)> _bufferTypeName = {
         DATA_BUFFER_TYPES
     };
 #undef X
 
 #define X(type, name, glType) glType,
-    static constexpr std::array<GLuint, 14> _bufferTypeGL = {
+    static constexpr std::array<GLuint, NUM_ARGS(DATA_BUFFER_TYPES)> _bufferTypeGL = {
         DATA_BUFFER_TYPES
     };
 #undef X

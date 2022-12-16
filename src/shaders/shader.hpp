@@ -10,6 +10,7 @@
 #include <unordered_map>
 
 #include "../gpuResource.hpp"
+#include "../utils/preprocessor.hpp"
 
 namespace StructuredGL::Shaders {
 
@@ -21,13 +22,13 @@ namespace StructuredGL::Shaders {
     X(TESSELLATION_CONTROL, "TESSELLATION_CONTROL", GL_TESS_CONTROL_SHADER)
 
 #define X(type, name, glType) name,
-    static constexpr std::array<const char*, 5> _shaderTypeName = {
+    static constexpr std::array<const char*, NUM_ARGS(SHADER_TYPES)> _shaderTypeName = {
         SHADER_TYPES
     };
 #undef X
 
 #define X(type, name, glType) glType,
-    static constexpr std::array<GLuint, 5> _shaderTypeGL = {
+    static constexpr std::array<GLuint, NUM_ARGS(SHADER_TYPES)> _shaderTypeGL = {
         SHADER_TYPES
     };
 #undef X

@@ -9,6 +9,7 @@
 #include <glm/glm.hpp>
 
 #include "../gpuResource.hpp"
+#include "../utils/preprocessor.hpp"
 
 namespace StructuredGL::Texture {
 
@@ -18,13 +19,13 @@ namespace StructuredGL::Texture {
     X(T3D, "TEXTURE_3D", GL_TEXTURE_3D)
 
 #define X(type, name, glType) name,
-    static constexpr std::array<const char*, 3> _textureTypeName = {
+    static constexpr std::array<const char*, NUM_ARGS(TEXTURE_TYPES)> _textureTypeName = {
         TEXTURE_TYPES
     };
 #undef X
 
 #define X(type, name, glType) glType,
-    static constexpr std::array<GLuint, 3> _textureTypeGL = {
+    static constexpr std::array<GLuint, NUM_ARGS(TEXTURE_TYPES)> _textureTypeGL = {
         TEXTURE_TYPES
     };
 #undef X
@@ -48,20 +49,22 @@ namespace StructuredGL::Texture {
     class MemoryTexture: public GPUResource {
     public:
         MemoryTexture(const std::string& name, TextureType type);
-        ~MemoryTexture() noexcept;
+        ~MemoryTexture() noexcept override;
 
         void bind() override;
         void unbind() override;
 
+        [[nodiscard]]
         ValidationState validate() const override;
 
+        [[nodiscard]]
         TextureType getType() const {
             return this->type;
         }
 
         void setTexParameterf(GLuint paramName,
                               GLfloat value);
-        
+
         void setTexParameteri(GLuint paramName,
                               GLint value);
 
