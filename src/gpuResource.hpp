@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef STRUCTURED_GL_GPURESOURCE_HPP
-#define STRUCTURED_GL_GPURESOURCE_HPP
+#ifndef STRUCTURED_GL_GPU_RESOURCE_HPP
+#define STRUCTURED_GL_GPU_RESOURCE_HPP
 
 #include <glad/glad.h>
 #include <string>
@@ -64,4 +64,4 @@ namespace StructuredGL {
 }
 
 
-#endif //STRUCTURED_GL_GPURESOURCE_HPP
+#endif // STRUCTURED_GL_GPU_RESOURCE_HPP
