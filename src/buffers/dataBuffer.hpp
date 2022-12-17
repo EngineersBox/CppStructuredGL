@@ -34,7 +34,7 @@ namespace StructuredGL::Buffers {
 #undef X
 
 #define X(type, name, glType) glType,
-    static constexpr std::array<GLuint, NUM_ARGS(DATA_BUFFER_TYPES)> _bufferTypeGL = {
+    static constexpr std::array<GLenum, NUM_ARGS(DATA_BUFFER_TYPES)> _bufferTypeGL = {
         DATA_BUFFER_TYPES
     };
 #undef X
@@ -51,7 +51,7 @@ namespace StructuredGL::Buffers {
     }
 
     [[nodiscard]]
-    constexpr GLuint getDataBufferTypeGLType(DataBufferType type) {
+    constexpr GLenum getDataBufferTypeGLType(DataBufferType type) {
         return _bufferTypeGL[static_cast<size_t>(type)];
     }
 

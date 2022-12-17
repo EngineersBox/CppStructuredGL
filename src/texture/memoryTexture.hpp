@@ -7,6 +7,7 @@
 #include <array>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
+#include <vector>
 
 #include "../gpuResource.hpp"
 #include "../utils/preprocessor.hpp"
@@ -25,7 +26,7 @@ namespace StructuredGL::Texture {
 #undef X
 
 #define X(type, name, glType) glType,
-    static constexpr std::array<GLuint, NUM_ARGS(TEXTURE_TYPES)> _textureTypeGL = {
+    static constexpr std::array<GLenum, NUM_ARGS(TEXTURE_TYPES)> _textureTypeGL = {
         TEXTURE_TYPES
     };
 #undef X
@@ -42,7 +43,7 @@ namespace StructuredGL::Texture {
     }
 
     [[nodiscard]]
-    constexpr GLuint getTextureTypeGLType(TextureType type) {
+    constexpr GLenum getTextureTypeGLType(TextureType type) {
         return _textureTypeGL[static_cast<size_t>(type)];
     }
 
@@ -69,22 +70,21 @@ namespace StructuredGL::Texture {
                               GLint value);
 
     protected:
-        virtual void createTexImage(GLuint level,
-                            GLuint internalFormat,
-                            GLuint dimensions[],
-                            GLuint border,
-                            GLuint format,
-                            GLuint type,
-                            GLbyte pixels[]);
+        virtual void createTexImage(GLint level,
+                                    GLint internalFormat,
+                                    std::vector<GLsizei> dimensions,
+                                    GLint border,
+                                    GLenum format,
+                                    GLenum type,
+                                    const GLvoid* data);
 
         void setDimensions(glm::vec3 newDimensions) {
             this->dimensions = newDimensions;
         }
 
         [[nodiscard]]
-        inline std::string getPrefix() const;
+        std::string getPrefix() const;
 
-    private:
         TextureType type;
         glm::vec3 dimensions;
     };

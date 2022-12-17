@@ -82,13 +82,13 @@ namespace StructuredGL::Texture {
         );
     }
 
-    void MemoryTexture::createTexImage(GLuint level,
-                                       GLuint internalFormat,
-                                       GLuint dimensions[],
-                                       GLuint border,
-                                       GLuint format,
-                                       GLuint type,
-                                       GLbyte pixels[]) {
+    void MemoryTexture::createTexImage(GLint level,
+                                       GLint internalFormat,
+                                       std::vector<GLsizei> dimensions,
+                                       GLint border,
+                                       GLenum format,
+                                       GLenum type,
+                                       const GLvoid* data) {
         throw std::runtime_error(this->getPrefix() + " Unimplemented method: createTexImage");
     }
 }

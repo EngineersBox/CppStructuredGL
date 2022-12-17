@@ -28,7 +28,7 @@ namespace StructuredGL::Shaders {
 #undef X
 
 #define X(type, name, glType) glType,
-    static constexpr std::array<GLuint, NUM_ARGS(SHADER_TYPES)> _shaderTypeGL = {
+    static constexpr std::array<GLenum, NUM_ARGS(SHADER_TYPES)> _shaderTypeGL = {
         SHADER_TYPES
     };
 #undef X
@@ -45,7 +45,7 @@ namespace StructuredGL::Shaders {
     }
 
     [[nodiscard]]
-    constexpr GLuint getShaderTypeGLType(ShaderType type) {
+    constexpr GLenum getShaderTypeGLType(ShaderType type) {
         return _shaderTypeGL[static_cast<size_t>(type)];
     }
 
